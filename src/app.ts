@@ -1,8 +1,10 @@
 // here all the app used code
-import express, { Application,Request,Response,NextFunction } from 'express';
+import express, { Application } from 'express';
 import cors from 'cors';
-import { Schema,model } from 'mongoose';
 const app:Application = express()
+
+// application route
+import userRoutes from './app/modules/user/user.route';
 
 // using cors
 app.use(cors());
@@ -11,111 +13,21 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({extended:true}));
 
-app.get('/', (req:Request, res:Response,next:NextFunction) => {
-
-    //inserting a test data into mongodb
-    /* 
-        step1: Interface
-        step2: schema
-        step3: Model
-        Step4:Database Query
-    */ 
-   // 1. creating an interface representing a document in MongoDB.
-   interface IUser{
-    id:string;
-    role:"student";
-    password:string;
-    name:{
-        firstName:string;
-        middleName?:string;
-        lastName:string;
-    };
-    dateOfBirth?:string;
-    gender:"male" | "fimale";
-    email?:string;
-    contactNo:string;
-    emergencyContactNo:string;
-    presestAddress:string;
-    permanentAddress:string;
-   }
-    //    2. Create a Schema corresponding to the document interface.
-    const userSchema = new Schema<IUser>({
-        id:{
-            type:String,
-            required:true,
-            unique:true
-        },
-        role:{
-            type:String,
-            required:true,
-        },
-        password:{
-            type:String,
-            required:true,
-        },
-        name: {
-            firstName:{
-                type:String,
-                required:true
-            },
-            middleName:{
-                type:String
-            },
-            lastName:{
-                type:String,
-                required:true
-            }
-         },
-         dateOfBirth:{
-            type:String,
-         },
-         gender:{
-             type:String,
-             enum:["male",'female']
-         },
-         email:{
-            type:String,
-         },
-         contactNo:{
-            type:String,
-         },
-         emergencyContactNo:{type:String},
-         presestAddress:{
-            type:String,
-         },
-         permanentAddress:{
-            type:String,
-         }
-        
-      });
-
-    // 3. Create a Model.
-    const User = model<IUser>("User",userSchema);
-
-    const createUserToDB =async () => {
-        const user = new User(
-            {
-                id:1112,
-                role:"student",
-                password:"iam",
-                name:{
-                    firstName:"gazi",
-                    middleName:"ashiq",
-                    lastName:"reza",
-                },
-                gender:"male",
-                contactNo:"3434353",
-                emergencyContactNo:"3534534",
-                presestAddress:"dhka",
-                permanentAddress:"khlna",
-               }
-        );
-        await user.save();
-        console.log(user);
-    }
-    createUserToDB();
-
-});
+// app.get('/api/v1/user',userRoutes);
+app.use('/api/v1/user',userRoutes);
 
 
 export default app;
+
+
+/*
+    Interface > interface.ts
+    Schema, Model > model.ts
+
+    route
+    route function > controller.ts
+
+    Database Query > service
+
+
+*/ 
