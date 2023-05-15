@@ -89,6 +89,32 @@ app.get('/', (req:Request, res:Response,next:NextFunction) => {
         
       });
 
+    // 3. Create a Model.
+    const User = model<IUser>("User",userSchema);
+
+    const createUserToDB =async () => {
+        const user = new User(
+            {
+                id:1112,
+                role:"student",
+                password:"iam",
+                name:{
+                    firstName:"gazi",
+                    middleName:"ashiq",
+                    lastName:"reza",
+                },
+                gender:"male",
+                contactNo:"3434353",
+                emergencyContactNo:"3534534",
+                presestAddress:"dhka",
+                permanentAddress:"khlna",
+               }
+        );
+        await user.save();
+        console.log(user);
+    }
+    createUserToDB();
+
 });
 
 
