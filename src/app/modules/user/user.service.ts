@@ -26,7 +26,10 @@ export const getUserByIdFromDB = async(payload:string):Promise<IUser | null>=>{
 
 
 
-// export const getAllAdminUsers = async(payload:string): Promise<IUser | null> =>{
-//     const user1 = new User();
-//  }
+export const getAllAdminUsers = async()=>{
+    const admins = await User.getAdminUsers();
+    return admins;
+ }
+ 
+
  
