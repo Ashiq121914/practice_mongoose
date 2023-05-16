@@ -9,7 +9,7 @@ export interface IUser{
         lastName:string;
     };
     dateOfBirth?:string;
-    gender:"male" | "fimale";
+    gender:"male" | "female";
     email?:string;
     contactNo:string;
     emergencyContactNo:string;
